@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: 'light';
+  default: true;
+  --color-primary: red;
+  --color-secondary: gray;
+}
+.lato-thin {
+  font-family: 'Lato', sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+}
