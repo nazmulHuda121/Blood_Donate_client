@@ -26,7 +26,7 @@ const Featured = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-red-950 via-red-900 to-red-950 text-white">
+    <section className="py-20 bg-gradient-to-br from-red-800 via-red-900 to-red-950 text-white">
       <div className="max-w-7xl mx-auto px-6 text-center">
         {/* Section Title */}
         <motion.h2
@@ -35,7 +35,7 @@ const Featured = () => {
           transition={{ duration: 0.6 }}
           className="text-4xl font-extrabold mb-4"
         >
-          Why Choose <span className="text-red-300">BloodCare?</span>
+          Why Choose <span className="text-black/70">BloodCare?</span>
         </motion.h2>
 
         <motion.p
@@ -56,7 +56,7 @@ const Featured = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: i * 0.2 }}
-              className="backdrop-blur-lg bg-white/10 border border-white/20 shadow-xl rounded-2xl p-8 hover:bg-white/20 hover:scale-[1.03] transition-all"
+              className="backdrop-blur-lg bg-black/40 border border-white/20 shadow-xl rounded-2xl p-8 hover:bg-black/20 hover:scale-[1.03] transition-all"
             >
               <div className="flex justify-center mb-5">{f.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{f.title}</h3>

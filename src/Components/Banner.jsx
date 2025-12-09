@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router';
 
 const slogans = [
@@ -42,7 +42,7 @@ const Banner = () => {
               repeatType: 'loop',
               delay: i * 1.2,
             }}
-            className="absolute text-[120px] font-extrabold text-red-500 select-none"
+            className="absolute text-[120px] font-extrabold text-red-600 select-none"
             style={{ left: `${i * 12}%` }}
           >
             BLOOD
@@ -50,25 +50,29 @@ const Banner = () => {
         ))}
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
-        {/* Animated Slogan */}
-        <motion.h1
-          key={currentSlogan}
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 50, opacity: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl md:text-6xl font-bold leading-tight"
-        >
-          {slogans[currentSlogan]}
-        </motion.h1>
+      <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center justify-center">
+        {/* Animated Slogan with fixed height */}
+        <div className="h-[4.5rem] md:h-[6rem] flex items-center justify-center">
+          <AnimatePresence mode="wait">
+            <motion.h1
+              key={currentSlogan}
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-6xl font-bold leading-tight"
+            >
+              {slogans[currentSlogan]}
+            </motion.h1>
+          </AnimatePresence>
+        </div>
 
         {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="mt-4 text-lg opacity-80"
+          className="mt-20 text-2xl opacity-80 text-gray-500"
         >
           Join the donor community and make an impact today.
         </motion.p>
@@ -78,18 +82,18 @@ const Banner = () => {
           initial={{ scale: 0.7, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.6 }}
-          className="flex justify-center gap-4 mt-8"
+          className="flex justify-center gap-4 mt-8 flex-wrap"
         >
           <button
             onClick={() => navigate('/register')}
-            className="btn bg-red-600 text-white border-none px-6 py-3 rounded-lg font-semibold hover:bg-red-700 shadow-lg transition-all"
+            className="btn bg-red-600 text-white border-none px-6 py-6 rounded-lg font-semibold hover:bg-red-700 shadow-lg transition-all lg:text-[16px]"
           >
             Join as a Donor
           </button>
 
           <button
             onClick={() => navigate('/search')}
-            className="btn bg-white text-gray-800 border border-gray-300 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 shadow-md transition-all"
+            className="btn bg-white text-gray-800 border border-gray-300 px-6 py-6 rounded-lg font-semibold hover:bg-gray-200 shadow-md transition-all lg:text-[16px]"
           >
             Search Donors
           </button>

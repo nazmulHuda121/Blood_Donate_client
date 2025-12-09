@@ -97,7 +97,7 @@ const Navbar = () => {
 
       {/* Drawer */}
       <div
-        className={`fixed right-0 top-0 h-full w-72 bg-red-800/65 backdrop-blur text-white shadow-xl z-50 transform transition-transform duration-300 lg:hidden ${
+        className={`fixed right-0 top-0 h-full w-full bg-red-800/65 backdrop-blur text-white shadow-xl z-50 transform transition-transform duration-300 hidden ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
