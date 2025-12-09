@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Menu, X, LogOut, LayoutDashboard } from 'lucide-react';
+import { Link, NavLink } from 'react-router';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   // Change this later with real auth
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   const [avatarOpen, setAvatarOpen] = useState(false);
 
@@ -26,21 +27,26 @@ const Navbar = () => {
           >
             <path d="M12 21c4.97-3.5 8-7 8-11a8 8 0 10-16 0c0 4 3 7.5 8 11z"></path>
           </svg>
-          <h1 className="text-[28px] font-semibold">
-            Blood<span className="text-red-600">Donate</span>
-          </h1>
+          <NavLink to="/">
+            <h1 className="text-[28px] font-semibold">
+              Blood<span className="text-red-600">Donate</span>
+            </h1>
+          </NavLink>
         </div>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-10 items-center text-lg font-medium">
-          <li className="hover:text-red-500 transition cursor-pointer">
+          <li className="hover:text-red-400 transition cursor-pointer">
             Donation Requests
           </li>
 
           {!isLoggedIn && (
-            <li className="hover:text-red-500 transition cursor-pointer">
+            <Link
+              to="/login"
+              className="hover:text-red-500 transition cursor-pointer"
+            >
               Login
-            </li>
+            </Link>
           )}
 
           {isLoggedIn && (
@@ -91,12 +97,12 @@ const Navbar = () => {
 
       {/* Drawer */}
       <div
-        className={`fixed right-0 top-0 h-full w-72 bg-red-800/95 backdrop-blur-lg text-white shadow-xl z-50 transform transition-transform duration-300 ${
+        className={`fixed right-0 top-0 h-full w-72 bg-red-800/65 backdrop-blur text-white shadow-xl z-50 transform transition-transform duration-300 lg:hidden ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Drawer Header */}
-        <div className="flex justify-between items-center px-6 py-6 border-b border-white/20">
+        <div className="flex justify-between items-center px-6 py-6 border-b border-white/20 ">
           <h2 className="text-2xl font-bold">Menu</h2>
           <button onClick={() => setOpen(false)}>
             <X size={30} />
@@ -104,7 +110,7 @@ const Navbar = () => {
         </div>
 
         {/* Drawer Links */}
-        <ul className="flex flex-col space-y-6 px-6 mt-6 text-lg">
+        <ul className="flex flex-col space-y-6 p-6 text-lg bg-black ">
           <li className="hover:text-yellow-300 transition cursor-pointer">
             Donation Requests
           </li>
