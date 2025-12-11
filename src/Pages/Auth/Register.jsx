@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
 
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const Register = () => {
   const [avatarFile, setAvatarFile] = useState(null);
+
+  const { register, control, handleSubmit } = useForm();
+
+  const handleUserRegistation = (data) => {
+    console.log(data);
+  };
 
   return (
     <section
@@ -27,10 +34,14 @@ const Register = () => {
           Create Donor Account
         </h2>
 
-        <form className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <form
+          onSubmit={handleSubmit(handleUserRegistation)}
+          className="grid grid-cols-1 md:grid-cols-2 gap-5"
+        >
           <div className="col-span-2">
             <label className="font-semibold">Full Name</label>
             <input
+              {...register('fullname')}
               type="text"
               className="input input-bordered w-full bg-red-50/30 mt-1 rounded-xl"
               placeholder="Your Name"
@@ -40,6 +51,7 @@ const Register = () => {
           <div className="col-span-2">
             <label className="font-semibold">Email</label>
             <input
+              {...register('email')}
               type="email"
               className="input input-bordered w-full bg-red-50/30 mt-1 rounded-xl"
               placeholder="Your Email"
@@ -49,6 +61,7 @@ const Register = () => {
           <div className="col-span-2">
             <label className="font-semibold">Avatar (ImageBB)</label>
             <input
+              {...register('email')}
               type="file"
               onChange={(e) => setAvatarFile(e.target.files[0])}
               className="file-input file-input-bordered bg-red-50/30 w-full mt-1 rounded-xl"

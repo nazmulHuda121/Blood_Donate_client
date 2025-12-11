@@ -1,0 +1,8 @@
+{
+  "Dhaka": ["Dhanmondi", "Mirpur", "Uttara", "Gulshan", "Banani", "Tejgaon"],
+  "Chattogram": ["Pahartali", "Kotwali", "Panchlaish", "Chawkbazar"],
+  "Rajshahi": ["Boalia", "Rajpara", "Shah Makhdum"],
+  "Khulna": ["Sonadanga", "Khalishpur", "Daulatpur"],
+  "Sylhet": ["Sadar", "Zindabazar", "South Surma"],
+  "Barishal": ["Sadar", "Bandar", "Kotwali"]
+}

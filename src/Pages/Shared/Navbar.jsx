@@ -39,6 +39,12 @@ const Navbar = () => {
           <li className="hover:text-red-400 transition cursor-pointer">
             Donation Requests
           </li>
+          <NavLink
+            to={'/register'}
+            className="hover:text-red-400 transition cursor-pointer"
+          >
+            Register
+          </NavLink>
 
           {!isLoggedIn && (
             <Link
