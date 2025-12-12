@@ -3,6 +3,7 @@ import MainLayout from '../Layouts/MainLayout';
 import Home from '../Pages/Home';
 import Login from '../Pages/Auth/Login';
 import Register from '../Pages/Auth/Register';
+import DashboardLayout from '../Layouts/DashboardLayout';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,11 @@ const router = createBrowserRouter([
         loader: () => fetch('/district.json').then((res) => res.json()),
       },
     ],
+  },
+  {
+    path: '/dashboard',
+    element: <DashboardLayout></DashboardLayout>,
+    children: [],
   },
 ]);
 

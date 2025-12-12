@@ -1,24 +1,57 @@
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
-import { AuthContext } from '../../AuthProvider/AuthContext';
+import useAuth from '../../hooks/useAuth';
+import { useLoaderData } from 'react-router';
 
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const Register = () => {
   const [avatarFile, setAvatarFile] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState();
-  const area = useLoaderData();
   const axiosSecure = useAxiosSecure();
-  const { user } = use(AuthContext);
-  console.log(user);
+  const { user } = useAuth();
+  const area = useLoaderData();
 
   const { register, control, handleSubmit } = useForm();
 
-  const handleUserRegistation = (data) => {
-    console.log(data);
+  const handleUserRegistation = async (data) => {
+    try {
+      // 1. Upload avatar image to ImgBB
+      let avatarURL = '';
+      // if (avatarFile) {
+      //   const formData = new FormData();
+      //   formData.append('image', avatarFile);
+
+      //   const res = await axiosSecure.post(
+      //     `https://api.imgbb.com/1/upload?key=YOUR_IMGBB_API_KEY`,
+      //     formData
+      //   );
+
+      //   avatarURL = res.data.data.display_url;
+      // }
+
+      // 2. Prepare user data
+      const userInfo = {
+        name: data.fullname,
+        email: data.email,
+        password: data.password,
+        avatar: avatarURL,
+        bloodGroup: data.bloodGroup,
+        district: data.district,
+        upazila: data.upozila,
+      };
+
+      // 3. POST to your backend API
+      const result = await axiosSecure.post('/user', userInfo);
+
+      console.log(result.data);
+      alert('User registered successfully!');
+    } catch (error) {
+      console.error(error);
+      alert('Something went wrong!');
+    }
   };
 
   return (
