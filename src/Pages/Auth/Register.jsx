@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+import { useLoaderData } from 'react-router';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { AuthContext } from '../../AuthProvider/AuthContext';
 
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const Register = () => {
   const [avatarFile, setAvatarFile] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState();
+  const area = useLoaderData();
+  const axiosSecure = useAxiosSecure();
+  const { user } = use(AuthContext);
+  console.log(user);
 
   const { register, control, handleSubmit } = useForm();
 
@@ -61,7 +69,7 @@ const Register = () => {
           <div className="col-span-2">
             <label className="font-semibold">Avatar (ImageBB)</label>
             <input
-              {...register('email')}
+              {...register('image')}
               type="file"
               onChange={(e) => setAvatarFile(e.target.files[0])}
               className="file-input file-input-bordered bg-red-50/30 w-full mt-1 rounded-xl"
@@ -70,7 +78,10 @@ const Register = () => {
 
           <div>
             <label className="font-semibold">Blood Group</label>
-            <select className="select select-bordered bg-red-50/30 w-full mt-1 rounded-xl">
+            <select
+              {...register('bloodGroup')}
+              className="select select-bordered bg-red-50/30 w-full mt-1 rounded-xl"
+            >
               <option disabled selected>
                 Select
               </option>
@@ -82,21 +93,36 @@ const Register = () => {
 
           <div>
             <label className="font-semibold">District</label>
-            <select className="select select-bordered bg-red-50/30 w-full mt-1 rounded-xl">
+            <select
+              {...register('district')}
+              onChange={(e) => setSelectedDistrict(e.target.value)}
+              className="select select-bordered bg-red-50/80 w-full mt-1 rounded-xl"
+            >
               <option>Select</option>
+              {Object.keys(area).map((district, ind) => (
+                <option key={ind}>{district}</option>
+              ))}
             </select>
           </div>
 
           <div>
             <label className="font-semibold">Upazila</label>
-            <select className="select select-bordered bg-red-50/30 w-full mt-1 rounded-xl">
+            <select
+              {...register('upozila')}
+              className="select select-bordered bg-red-50/30 w-full mt-1 rounded-xl"
+            >
               <option>Select</option>
+              {selectedDistrict &&
+                area[selectedDistrict]?.map((upozila, ind) => (
+                  <option key={ind}>{upozila}</option>
+                ))}
             </select>
           </div>
 
           <div>
             <label className="font-semibold">Password</label>
             <input
+              {...register('password')}
               type="password"
               className="input input-bordered w-full bg-red-50/30 mt-1 rounded-xl"
             />
@@ -105,6 +131,7 @@ const Register = () => {
           <div>
             <label className="font-semibold">Confirm Password</label>
             <input
+              {...register('confirmPassword')}
               type="password"
               className="input input-bordered w-full bg-red-50/30 mt-1 rounded-xl"
             />

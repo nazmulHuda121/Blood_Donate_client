@@ -20,6 +20,7 @@ const router = createBrowserRouter([
       {
         path: '/register',
         Component: Register,
+        loader: () => fetch('/district.json').then((res) => res.json()),
       },
     ],
   },
