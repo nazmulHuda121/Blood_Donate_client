@@ -11,7 +11,7 @@ import {
 import useAuth from '../hooks/useAuth';
 
 const Sidebar = () => {
-  const { role = 'donor', logOut } = useAuth() || {};
+  const { role = 'admin', logOut } = useAuth() || {};
 
   const navLinkClass = ({ isActive }) =>
     `flex items-center gap-3 px-3 py-2 border-l-4 rounded-md transition

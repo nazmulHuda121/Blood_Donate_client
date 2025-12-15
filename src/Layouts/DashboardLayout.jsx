@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router';
 import Sidebar from '../Components/Sidebar';
 import useAuth from '../hooks/useAuth';
-import DashboardHome from '../Pages/Dashboard/DashboardHome';
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -13,7 +12,6 @@ const DashboardLayout = () => {
       {/* CONTENT */}
       <div className="drawer-content flex flex-col">
         <main className="flex-1 max-w-[1240px] mx-auto w-full px-4 py-6 bg-[#1b2028]">
-          <DashboardHome />
           <Outlet />
         </main>
       </div>
