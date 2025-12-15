@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from 'firebase/auth';
 import { auth } from '../firebase/firebase.config';
 
@@ -14,16 +15,6 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(false);
-
-  const login = async (email, password) => {
-    const res = await fetch('/http://localhost:5000/login', {
-      method: 'POST',
-      headers: { 'content-type': 'appliocation/json' },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    return data;
-  };
 
   const resigterUser = (email, password) => {
     setLoading(true);
@@ -40,9 +31,9 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-  const logout = () => {
+  const logoutUser = () => {
     setLoading(true);
-    setUser(null);
+    return signOut(auth);
   };
 
   // Observation
@@ -57,13 +48,12 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const userInfo = {
-    login,
-    logout,
     user,
     loading,
     resigterUser,
     signInUser,
     googleSignIn,
+    logoutUser,
   };
   return <AuthContext value={userInfo}>{children}</AuthContext>;
 };

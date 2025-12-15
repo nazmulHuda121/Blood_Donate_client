@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useAxiosSecure from '../../hooks/useAxios';
 import useAuth from '../../hooks/useAuth';
 import { useLoaderData } from 'react-router';
 

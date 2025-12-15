@@ -6,12 +6,10 @@ import useAuth from '../../hooks/useAuth';
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [avatarOpen, setAvatarOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logoutUser } = useAuth();
 
   const handleLogout = async () => {
-    await logout();
-    setAvatarOpen(false);
-    setDrawerOpen(false);
+    logoutUser().then(() => console.log('Signout successfully complete'));
   };
 
   return (
@@ -106,7 +104,7 @@ const Navbar = () => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-3/4 md:hidden bg-black/90 backdrop-blur text-white shadow-xl z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-3/4 lg:hidden bg-black/90 backdrop-blur text-white shadow-xl z-50 transform transition-transform duration-300 ${
           drawerOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >

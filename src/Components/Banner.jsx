@@ -72,7 +72,7 @@ const Banner = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="mt-20 text-2xl opacity-80 text-gray-500"
+          className="lg:mt-20 mt-10  lg:text-2xl opacity-80 text-gray-500"
         >
           Join the donor community and make an impact today.
         </motion.p>
