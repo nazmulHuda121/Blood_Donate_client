@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-import useAxiosSecure from '../../hooks/useAxios';
 import useAuth from '../../hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -11,7 +10,21 @@ const Login = () => {
   const { signInUser, googleSignIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const handleLogin = async () => {};
+
+  const handleLogin = async (data) => {
+    try {
+      const result = await signInUser(data.email, data.password);
+      console.log('Logged in:', result.user);
+
+      navigate(location?.state || '/dashboard');
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: error.message,
+      });
+    }
+  };
 
   // Google Login Handler
   const handleGoogle = async () => {
