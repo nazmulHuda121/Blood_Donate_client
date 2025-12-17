@@ -9,9 +9,29 @@ import {
   FaHome,
 } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
+import useRole from '../hooks/useRoles';
+import Loading from './Loading';
 
 const Sidebar = () => {
-  const { role = 'admin', logOut } = useAuth() || {};
+  const { logoutUser } = useAuth() || {};
+  const { role, roleLoading } = useRole();
+
+  // if (roleLoading) {
+  //   return (
+  //     <div className="p-4 text-gray-400">
+  //       <Loading />
+  //     </div>
+  //   );
+  // }
+  const handleLogout = () => {
+    logoutUser()
+      .then(() => {
+        alert('Logout successfully complete');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const navLinkClass = ({ isActive }) =>
     `flex items-center gap-3 px-3 py-2 border-l-4 rounded-md transition
@@ -94,7 +114,7 @@ const Sidebar = () => {
           </NavLink>
 
           <button
-            onClick={logOut}
+            onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2 mt-2 w-full rounded-md
                        text-gray-300 hover:bg-red-100 hover:text-red-700 transition"
           >

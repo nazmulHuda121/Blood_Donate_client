@@ -1,4 +1,4 @@
-import { ScaleLoader } from 'react-spinners'; // Assuming you have 'react-spinners' installed
+import { ScaleLoader } from 'react-spinners';
 
 const Loading = ({ smallHeight }) => {
   return (
@@ -14,7 +14,7 @@ const Loading = ({ smallHeight }) => {
       */}
       <ScaleLoader
         // Using a strong green/lime hex code that aligns with common Tailwind 'lime' palette
-        color="#84cc16" // This is Tailwind's 'lime-500' color
+        color="red" // This is Tailwind's 'lime-500' color
         height={35} // Height of each bar
         width={4} // Width of each bar
         radius={2} // Border radius of each bar

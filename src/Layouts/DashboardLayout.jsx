@@ -1,9 +1,19 @@
 import { Outlet } from 'react-router';
 import Sidebar from '../Components/Sidebar';
 import useAuth from '../hooks/useAuth';
+import Loading from '../Components/Loading';
 
 const DashboardLayout = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  }
+
   console.log('Dashboard user', user);
   return (
     <div className="drawer lg:drawer-open min-h-screen">

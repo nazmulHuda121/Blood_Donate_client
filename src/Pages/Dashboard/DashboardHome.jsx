@@ -4,10 +4,12 @@ import { Link } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import useAxios from '../../hooks/useAxios';
 import { useQuery } from '@tanstack/react-query';
+import useRole from '../../hooks/useRoles';
 
 const DashboardHome = () => {
-  const { user, role = 'donor' } = useAuth() || {};
+  const { user } = useAuth() || {};
   const axios = useAxios();
+  const { role } = useRole();
 
   /* ===== Greeting Logic ===== */
   const hour = new Date().getHours();

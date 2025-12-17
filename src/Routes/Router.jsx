@@ -10,6 +10,7 @@ import MyDonationRequests from '../Pages/Dashboard/Donor/MyDonationRequests';
 import DashboardIndex from '../Pages/Dashboard/DashboardIndex';
 import AllUsers from '../Pages/Dashboard/Admin/AllUsers';
 import AllDonationRequests from '../Pages/Dashboard/Admin/AllDonationRequests';
+import PrivateRoute from './PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,

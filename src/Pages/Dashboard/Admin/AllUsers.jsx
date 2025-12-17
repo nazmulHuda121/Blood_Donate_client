@@ -7,7 +7,7 @@ const AllUsers = () => {
   const { data: users = [], refetch } = useQuery({
     queryKey: ['admin-users'],
     queryFn: async () => {
-      const res = await axios.get('/admin/users');
+      const res = await axios.get('/users');
       return res.data;
     },
   });
@@ -35,10 +35,16 @@ const AllUsers = () => {
             <td>{u.email}</td>
             <td>{u.role}</td>
             <td>
-              <button onClick={() => updateRole(u._id, 'admin')}>
+              <button
+                className="btn"
+                onClick={() => updateRole(u._id, 'admin')}
+              >
                 Make Admin
               </button>
-              <button onClick={() => updateRole(u._id, 'volunteer')}>
+              <button
+                className="btn"
+                onClick={() => updateRole(u._id, 'volunteer')}
+              >
                 Volunteer
               </button>
             </td>
