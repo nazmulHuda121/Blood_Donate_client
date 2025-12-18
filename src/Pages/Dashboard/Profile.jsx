@@ -1,8 +1,11 @@
 import useAuth from '../../hooks/useAuth';
 import { FaEdit, FaKey } from 'react-icons/fa';
+import useRole from '../../hooks/useRoles';
 
 const Profile = () => {
-  const { user, role } = useAuth() || {};
+  const { user } = useAuth() || {};
+  const { role } = useRole();
+  console.log(user);
 
   return (
     <div className="max-w-md mx-auto p-4">

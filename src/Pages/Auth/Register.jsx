@@ -2,62 +2,97 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
-import { useLoaderData } from 'react-router';
+import { Navigate, useLoaderData, useNavigate } from 'react-router';
 import useAxios from '../../hooks/useAxios';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const Register = () => {
-  const [avatarFile, setAvatarFile] = useState(null);
-  const [selectedDistrict, setSelectedDistrict] = useState();
+  const [selectedDistrict, setSelectedDistrict] = useState('');
   const axiosSecure = useAxios();
-  const { resigterUser } = useAuth();
+  const { registerUser, updateUserProfile } = useAuth();
   const area = useLoaderData();
-
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
   const handleUserRegistation = async (data) => {
     try {
-      // Firebase account create
-      const result = await resigterUser(data.email, data.password);
-      console.log('Firebase user created:', result.user);
+      // 1. Firebase user create
+      await registerUser(data.email, data.password);
 
-      // Prepare MongoDB user
+      // 2. Upload image
+      const formData = new FormData();
+      formData.append('image', data.image[0]);
+
+      const imgRes = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host}`,
+        formData
+      );
+
+      const photoURL = imgRes.data.data.url;
+
+      // 3. Update Firebase profile
+      await updateUserProfile({
+        displayName: data.fullname,
+        photoURL,
+      });
+
+      // 4. Save user to MongoDB
       const userInfo = {
         name: data.fullname,
         email: data.email,
-        avatar: avatarFile,
+        avatar: photoURL,
         bloodGroup: data.bloodGroup,
         district: data.district,
         upazila: data.upozila,
+        role: 'donor',
+        status: 'active',
       };
 
-      // Save to MongoDB
       await axiosSecure.post('/user', userInfo);
 
-      alert('Registration successful!');
+      // SweetAlert success
+      Swal.fire({
+        icon: 'success',
+        title: 'Registration Successful 🎉',
+        text: 'Your donor account has been created',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      // Redirect after alert
+      setTimeout(() => {
+        navigate('/dashboard', { replace: true });
+      }, 500);
     } catch (error) {
       console.error(error);
-      alert(error.message);
+
+      // SweetAlert error
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Failed',
+        text: error.message,
+      });
     }
   };
 
   return (
     <section
-      className=" py-18 bg-cover bg-center bg-no-repeat flex items-center justify-center relative"
+      className="py-18 bg-cover bg-center flex items-center justify-center relative"
       style={{
         backgroundImage:
-          "url('https://plus.unsplash.com/premium_photo-1723132609728-01b6cd5cdab1?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+          "url('https://plus.unsplash.com/premium_photo-1723132609728-01b6cd5cdab1')",
       }}
     >
-      {/* Dark red overlay */}
       <div className="absolute inset-0 bg-red-900/40 backdrop-blur-sm"></div>
 
       <motion.div
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative w-full max-w-2xl bg-white/10 backdrop-blur-xl shadow-2xl border border-red-200 p-10 rounded-3xl z-10"
+        className="relative w-full max-w-2xl bg-white/10 backdrop-blur-xl p-10 rounded-3xl z-10"
       >
         <h2 className="text-4xl font-bold text-center text-red-700 mb-6">
           Create Donor Account
@@ -67,110 +102,82 @@ const Register = () => {
           onSubmit={handleSubmit(handleUserRegistation)}
           className="grid grid-cols-1 md:grid-cols-2 gap-5"
         >
+          {/* Full Name */}
           <div className="col-span-2">
-            <label className="font-semibold">Full Name</label>
+            <label>Full Name</label>
             <input
-              {...register('fullname')}
-              type="text"
-              className="input input-bordered w-full bg-red-50/30 mt-1 rounded-xl"
-              placeholder="Your Name"
+              {...register('fullname', { required: true })}
+              className="input w-full"
             />
           </div>
 
+          {/* Email */}
           <div className="col-span-2">
-            <label className="font-semibold">Email</label>
+            <label>Email</label>
             <input
-              {...register('email')}
+              {...register('email', { required: true })}
               type="email"
-              className="input input-bordered w-full bg-red-50/30 mt-1 rounded-xl"
-              placeholder="Your Email"
+              className="input w-full"
             />
           </div>
 
+          {/* Avatar */}
           <div className="col-span-2">
-            <label className="font-semibold">Avatar (ImageBB)</label>
+            <label>Avatar</label>
             <input
-              {...register('image')}
+              {...register('image', { required: true })}
               type="file"
-              onChange={(e) => setAvatarFile(e.target.files[0])}
-              className="file-input file-input-bordered bg-red-50/30 w-full mt-1 rounded-xl"
+              className="file-input w-full"
             />
           </div>
 
-          <div>
-            <label className="font-semibold">Blood Group</label>
-            <select
-              {...register('bloodGroup')}
-              className="select select-bordered bg-red-50/30 w-full mt-1 rounded-xl"
-            >
-              <option disabled selected>
-                Select
-              </option>
-              {bloodGroups.map((bg) => (
-                <option key={bg}>{bg}</option>
-              ))}
-            </select>
-          </div>
+          {/* Blood Group */}
+          <select {...register('bloodGroup')} className="select">
+            <option>Select Blood</option>
+            {bloodGroups.map((bg) => (
+              <option key={bg}>{bg}</option>
+            ))}
+          </select>
 
-          <div>
-            <label className="font-semibold">District</label>
-            <select
-              {...register('district')}
-              onChange={(e) => setSelectedDistrict(e.target.value)}
-              className="select select-bordered bg-red-50/80 w-full mt-1 rounded-xl"
-            >
-              <option>Select</option>
-              {Object.keys(area).map((district, ind) => (
-                <option key={ind}>{district}</option>
-              ))}
-            </select>
-          </div>
+          {/* District */}
+          <select
+            {...register('district')}
+            onChange={(e) => setSelectedDistrict(e.target.value)}
+            className="select"
+          >
+            <option>Select District</option>
+            {Object.keys(area).map((d) => (
+              <option key={d}>{d}</option>
+            ))}
+          </select>
 
-          <div>
-            <label className="font-semibold">Upazila</label>
-            <select
-              {...register('upozila')}
-              className="select select-bordered bg-red-50/30 w-full mt-1 rounded-xl"
-            >
-              <option>Select</option>
-              {selectedDistrict &&
-                area[selectedDistrict]?.map((upozila, ind) => (
-                  <option key={ind}>{upozila}</option>
-                ))}
-            </select>
-          </div>
+          {/* Upazila */}
+          <select {...register('upozila')} className="select">
+            <option>Select Upazila</option>
+            {selectedDistrict &&
+              area[selectedDistrict]?.map((u) => <option key={u}>{u}</option>)}
+          </select>
 
-          <div>
-            <label className="font-semibold">Password</label>
-            <input
-              {...register('password')}
-              type="password"
-              className="input input-bordered w-full bg-red-50/30 mt-1 rounded-xl"
-            />
-          </div>
+          {/* Password */}
+          <input
+            {...register('password', { required: true, minLength: 6 })}
+            type="password"
+            placeholder="Password"
+            className="input"
+          />
 
-          <div>
-            <label className="font-semibold">Confirm Password</label>
-            <input
-              {...register('confirmPassword')}
-              type="password"
-              className="input input-bordered w-full bg-red-50/30 mt-1 rounded-xl"
-            />
-          </div>
+          {/* Confirm Password */}
+          <input
+            {...register('confirmPassword', { required: true })}
+            type="password"
+            placeholder="Confirm Password"
+            className="input"
+          />
 
-          <div className="col-span-2 mt-3">
-            <button className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow-lg transition-all">
-              Register Now
-            </button>
-          </div>
+          <button className="col-span-2 bg-red-600 py-3 rounded text-white">
+            Register
+          </button>
         </form>
-
-        <p className="text-center mt-4 text-white font-medium">
-          Already have an account?{' '}
-          <a href="/login" className="text-yellow-300 underline">
-            Login
-          </a>
-        </p>
       </motion.div>
     </section>
   );

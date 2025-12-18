@@ -4,7 +4,7 @@ import useAuth from '../hooks/useAuth';
 import Loading from '../Components/Loading';
 
 const DashboardLayout = () => {
-  const { user, loading } = useAuth();
+  const { loading } = useAuth();
 
   if (loading) {
     return (
@@ -14,7 +14,6 @@ const DashboardLayout = () => {
     );
   }
 
-  console.log('Dashboard user', user);
   return (
     <div className="drawer lg:drawer-open min-h-screen">
       <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
