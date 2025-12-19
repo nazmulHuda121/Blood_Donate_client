@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router';
-import useRole from '../hooks/useRole';
 import Loading from '../Components/Loading';
+import useRole from '../hooks/useRoles';
 
 const AdminRoute = ({ children }) => {
   const { role, roleLoading } = useRole();

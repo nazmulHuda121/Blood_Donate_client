@@ -11,6 +11,9 @@ import DashboardIndex from '../Pages/Dashboard/DashboardIndex';
 import AllUsers from '../Pages/Dashboard/Admin/AllUsers';
 import AllDonationRequests from '../Pages/Dashboard/Admin/AllDonationRequests';
 import PrivateRoute from './PrivateRoute';
+import AdminRoute from './AdminRoute';
+import VolunteerRoute from './VolunteerRoute';
+import SearchDonors from '../Components/SearchDonor';
 
 const router = createBrowserRouter([
   {
@@ -52,13 +55,25 @@ const router = createBrowserRouter([
       },
       {
         path: 'all-users',
-        element: <AllUsers />,
+        element: (
+          <AdminRoute>
+            <AllUsers />,
+          </AdminRoute>
+        ),
       },
       {
         path: 'all-blood-donation-request',
-        element: <AllDonationRequests />,
+        element: (
+          <VolunteerRoute>
+            <AllDonationRequests />,
+          </VolunteerRoute>
+        ),
       },
     ],
+  },
+  {
+    path: '/search-donors',
+    element: <SearchDonors />,
   },
 ]);
 

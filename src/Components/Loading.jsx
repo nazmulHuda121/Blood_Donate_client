@@ -1,25 +1,21 @@
-import { ScaleLoader } from 'react-spinners';
+import { FaTint } from 'react-icons/fa';
 
 const Loading = ({ smallHeight }) => {
   return (
     <div
-      className={` ${smallHeight ? 'h-[250px]' : 'h-[70vh]'}
-      flex 
-      flex-col 
-      justify-center 
-      items-center `}
+      className={`${
+        smallHeight ? 'h-[250px]' : 'h-[70vh]'
+      } flex items-center justify-center`}
     >
-      {/* The 'ScaleLoader' creates a visually modern spinner.
-        I've set the color to 'lime' and the height/width of the bars for effect.
-      */}
-      <ScaleLoader
-        // Using a strong green/lime hex code that aligns with common Tailwind 'lime' palette
-        color="red" // This is Tailwind's 'lime-500' color
-        height={35} // Height of each bar
-        width={4} // Width of each bar
-        radius={2} // Border radius of each bar
-        margin={2} // Spacing between the bars
-      />
+      <div className="relative w-20 h-20">
+        {/* Rotating circle */}
+        <div className="absolute inset-0 rounded-full border-4 border-red-200 border-t-red-600 animate-spin"></div>
+
+        {/* Blood drop icon */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <FaTint className="text-red-600 text-3xl animate-pulse" />
+        </div>
+      </div>
     </div>
   );
 };

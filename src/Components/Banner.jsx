@@ -92,7 +92,7 @@ const Banner = () => {
           </button>
 
           <button
-            onClick={() => navigate('/search')}
+            onClick={() => navigate('/search-donors')}
             className="btn bg-white text-gray-800 border border-gray-300 px-6 py-6 rounded-lg font-semibold hover:bg-gray-200 shadow-md transition-all lg:text-[16px]"
           >
             Search Donors
