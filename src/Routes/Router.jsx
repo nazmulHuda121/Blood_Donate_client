@@ -14,6 +14,7 @@ import PrivateRoute from './PrivateRoute';
 import AdminRoute from './AdminRoute';
 import VolunteerRoute from './VolunteerRoute';
 import SearchDonors from '../Components/SearchDonor';
+import NotFound from '../Pages/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
   {
     path: '/search-donors',
     element: <SearchDonors />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ]);
 
