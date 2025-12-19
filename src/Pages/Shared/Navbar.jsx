@@ -1,88 +1,103 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Menu, X, LogOut, LayoutDashboard } from 'lucide-react';
 import { Link, NavLink } from 'react-router';
 import useAuth from '../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
+  const { user, logoutUser } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [avatarOpen, setAvatarOpen] = useState(false);
-  const { user, logoutUser } = useAuth();
 
-  const handleLogout = async () => {
-    logoutUser().then(() => console.log('Signout successfully complete'));
+  const closeAll = () => {
+    setDrawerOpen(false);
+    setAvatarOpen(false);
+  };
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Logout!',
+      confirmButtonColor: '#dc2626',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logoutUser().then(() => {
+          closeAll();
+          Swal.fire({
+            icon: 'success',
+            title: 'Logged Out',
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        });
+      }
+    });
   };
 
   return (
-    <nav className="backdrop-blur bg-black text-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <nav className="sticky top-0 z-50 backdrop-blur bg-black/90 text-white">
+      <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center space-x-1 cursor-pointer">
-          <NavLink to="/" className="flex items-center space-x-1">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="red"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 21c4.97-3.5 8-7 8-11a8 8 0 10-16 0c0 4 3 7.5 8 11z" />
-            </svg>
-            <h1 className="text-[28px] font-semibold">
-              Blood<span className="text-red-600">Donate</span>
-            </h1>
-          </NavLink>
-        </div>
+        <NavLink to="/" className="flex items-center gap-2">
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="red"
+            strokeWidth="3"
+          >
+            <path d="M12 21c4.97-3.5 8-7 8-11a8 8 0 10-16 0c0 4 3 7.5 8 11z" />
+          </svg>
+          <span className="text-2xl font-semibold">
+            Blood<span className="text-red-600">Donate</span>
+          </span>
+        </NavLink>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-10 items-center text-lg font-medium">
-          <li className="hover:text-red-400 transition cursor-pointer">
+        <ul className="hidden md:flex items-center gap-10 text-lg">
+          <li className="hover:text-red-400 cursor-pointer">
             Donation Requests
           </li>
 
-          <NavLink
-            to="/register"
-            className="hover:text-red-400 transition cursor-pointer"
-          >
-            Register
-          </NavLink>
-
           {!user && (
-            <Link
-              to="/login"
-              className="hover:text-red-500 transition cursor-pointer"
-            >
-              Login
-            </Link>
+            <>
+              <NavLink to="/register" className="hover:text-red-400">
+                Register
+              </NavLink>
+              <NavLink to="/login" className="hover:text-red-400">
+                Login
+              </NavLink>
+            </>
           )}
 
           {user && (
             <>
-              <li className="hover:text-red-500 transition cursor-pointer">
-                Funding
-              </li>
+              <li className="hover:text-red-400 cursor-pointer">Funding</li>
 
-              {/* Avatar + Dropdown */}
+              {/* Avatar */}
               <div className="relative">
                 <img
                   src={user.photoURL || 'https://i.pravatar.cc/40'}
-                  alt="avatar"
-                  onClick={() => setAvatarOpen(!avatarOpen)}
                   className="w-10 h-10 rounded-full cursor-pointer border-2 border-white"
+                  onClick={() => setAvatarOpen(!avatarOpen)}
                 />
+
                 {avatarOpen && (
-                  <div className="absolute right-0 mt-3 bg-white text-black rounded-xl shadow-lg w-40 py-2 z-50">
+                  <div className="absolute right-0 mt-3 w-44 bg-white text-black rounded-xl shadow-lg overflow-hidden">
                     <Link
                       to="/dashboard"
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+                      onClick={closeAll}
+                      className="flex items-center gap-2 px-4 py-3 hover:bg-gray-100"
                     >
                       <LayoutDashboard size={18} /> Dashboard
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+                      className="w-full flex items-center gap-2 px-4 py-3 hover:bg-gray-100"
                     >
                       <LogOut size={18} /> Logout
                     </button>
@@ -93,100 +108,73 @@ const Navbar = () => {
           )}
         </ul>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden"
-          onClick={() => setDrawerOpen(!drawerOpen)}
-        >
+        {/* Mobile Toggle */}
+        <button className="md:hidden" onClick={() => setDrawerOpen(true)}>
           <Menu size={30} />
         </button>
       </div>
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-3/4 lg:hidden bg-black/90 backdrop-blur text-white shadow-xl z-50 transform transition-transform duration-300 ${
+        className={`fixed inset-y-0 right-0 w-72 bg-black text-white z-50 transform transition-transform duration-300 ${
           drawerOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {/* Drawer Header */}
-        <div className="flex justify-between items-center px-6 py-6 border-b border-white/20">
-          <h2 className="text-2xl font-bold">Menu</h2>
-          <button onClick={() => setDrawerOpen(false)}>
-            <X size={30} />
-          </button>
+        <div className="flex justify-between items-center p-5 border-b border-white/20">
+          <h2 className="text-xl font-semibold">Menu</h2>
+          <X size={28} onClick={closeAll} />
         </div>
 
-        {/* Drawer Links */}
-        <ul className="flex flex-col p-6 text-lg space-y-6">
-          <li
-            className="hover:text-yellow-300 cursor-pointer"
-            onClick={() => setDrawerOpen(false)}
-          >
+        <div className="p-6 space-y-6 text-lg">
+          <p onClick={closeAll} className="hover:text-red-400 cursor-pointer">
             Donation Requests
-          </li>
-
-          <NavLink
-            to="/register"
-            className="hover:text-yellow-300 cursor-pointer"
-            onClick={() => setDrawerOpen(false)}
-          >
-            Register
-          </NavLink>
+          </p>
 
           {!user && (
-            <NavLink
-              to="/login"
-              className="hover:text-yellow-300 cursor-pointer"
-              onClick={() => setDrawerOpen(false)}
-            >
-              Login
-            </NavLink>
+            <>
+              <NavLink to="/register" onClick={closeAll}>
+                Register
+              </NavLink>
+              <NavLink to="/login" onClick={closeAll}>
+                Login
+              </NavLink>
+            </>
           )}
 
           {user && (
             <>
-              <li
-                className="hover:text-yellow-300 cursor-pointer"
-                onClick={() => setDrawerOpen(false)}
-              >
-                Funding
-              </li>
+              <p className="hover:text-red-400 cursor-pointer">Funding</p>
 
-              <div className="flex items-center gap-3 mt-4">
+              <div className="flex items-center gap-3 pt-4 border-t border-white/20">
                 <img
                   src={user.photoURL || 'https://i.pravatar.cc/40'}
-                  className="w-10 h-10 rounded-full border-2 border-white"
+                  className="w-10 h-10 rounded-full"
                 />
-                <span className="text-lg font-semibold">
-                  {user.displayName || 'User'}
-                </span>
+                <span>{user.displayName || 'User'}</span>
               </div>
 
               <NavLink
                 to="/dashboard"
-                className="flex items-center gap-2 hover:text-yellow-300 mt-4"
-                onClick={() => setDrawerOpen(false)}
+                onClick={closeAll}
+                className="flex items-center gap-2"
               >
                 <LayoutDashboard size={18} /> Dashboard
               </NavLink>
 
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 hover:text-yellow-300 mt-2"
+                className="flex items-center gap-2"
               >
                 <LogOut size={18} /> Logout
               </button>
             </>
           )}
-        </ul>
+        </div>
       </div>
 
       {/* Overlay */}
       {drawerOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={() => setDrawerOpen(false)}
-        ></div>
+        <div className="fixed inset-0 bg-black/50 z-40" onClick={closeAll} />
       )}
     </nav>
   );

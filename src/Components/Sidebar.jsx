@@ -10,27 +10,44 @@ import {
 } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
 import useRole from '../hooks/useRoles';
-import Loading from './Loading';
+import Swal from 'sweetalert2';
 
 const Sidebar = () => {
   const { logoutUser } = useAuth() || {};
-  const { role, roleLoading } = useRole();
+  const { role } = useRole();
+  console.log(role);
 
-  // if (roleLoading) {
-  //   return (
-  //     <div className="p-4 text-gray-400">
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
   const handleLogout = () => {
-    logoutUser()
-      .then(() => {
-        alert('Logout successfully complete');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Logout!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logoutUser()
+          .then(() => {
+            Swal.fire({
+              title: 'Logged Out!',
+              text: 'Logout successfully completed',
+              icon: 'success',
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Logout failed!',
+            });
+          });
+      }
+    });
   };
 
   const navLinkClass = ({ isActive }) =>

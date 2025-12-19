@@ -1,6 +1,7 @@
 import DashboardHome from './DashboardHome';
 import AdminDashboardHome from './AdminDasboardHome';
 import useRole from '../../hooks/useRoles';
+import VolunteerDashboardHome from './VolunteerDashboard';
 
 const DashboardIndex = () => {
   const { role, roleLoading } = useRole();

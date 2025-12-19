@@ -1,6 +1,6 @@
 import React from 'react';
 
-const VolunteerDashboard = () => {
+const VolunteerDashboardHome = () => {
   return (
     <div>
       <h2>Volunteer Dashboard</h2>
@@ -8,4 +8,4 @@ const VolunteerDashboard = () => {
   );
 };
 
-export default VolunteerDashboard;
+export default VolunteerDashboardHome;

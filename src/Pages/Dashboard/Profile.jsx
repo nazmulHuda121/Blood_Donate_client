@@ -47,7 +47,7 @@ const Profile = () => {
         </div>
 
         {/* Buttons */}
-        {/* <div className="mt-6 flex justify-center gap-3">
+        <div className="mt-6 flex justify-center gap-3">
           <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition">
             <FaEdit /> Edit
           </button>
@@ -55,7 +55,7 @@ const Profile = () => {
           <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium transition">
             <FaKey /> Password
           </button>
-        </div> */}
+        </div>
       </div>
     </div>
   );
