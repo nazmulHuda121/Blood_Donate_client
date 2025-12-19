@@ -116,7 +116,7 @@ const Navbar = () => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed inset-y-0 right-0 w-72 bg-black text-white z-50 transform transition-transform duration-300 ${
+        className={`fixed inset-y-0 right-0 w-72 bg-black text-white z-50 transform transition-transform duration-300 hidden ${
           drawerOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
