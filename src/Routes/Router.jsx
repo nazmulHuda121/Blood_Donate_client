@@ -58,7 +58,7 @@ const router = createBrowserRouter([
         path: 'all-users',
         element: (
           <AdminRoute>
-            <AllUsers />,
+            <AllUsers />
           </AdminRoute>
         ),
       },
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
         path: 'all-blood-donation-request',
         element: (
           <VolunteerRoute>
-            <AllDonationRequests />,
+            <AllDonationRequests />
           </VolunteerRoute>
         ),
       },

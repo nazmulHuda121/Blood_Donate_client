@@ -11,6 +11,6 @@ const DashboardIndex = () => {
   if (role === 'admin') return <AdminDashboardHome />;
   if (role === 'volunteer') return <VolunteerDashboardHome />;
 
-  return <DashboardHome />; // donor default
+  return <DashboardHome />;
 };
 export default DashboardIndex;
