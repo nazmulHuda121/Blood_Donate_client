@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Menu, X, LogOut, LayoutDashboard } from 'lucide-react';
 import { Link, NavLink } from 'react-router';
-import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
   const { user, logoutUser } = useAuth();
@@ -13,6 +13,8 @@ const Navbar = () => {
     setDrawerOpen(false);
     setAvatarOpen(false);
   };
+
+  console.log(user);
 
   const handleLogout = () => {
     Swal.fire({
@@ -59,9 +61,12 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex items-center gap-10 text-lg">
-          <li className="hover:text-red-400 cursor-pointer">
+          <NavLink
+            to={'/donation-requests'}
+            className="hover:text-red-400 cursor-pointer"
+          >
             Donation Requests
-          </li>
+          </NavLink>
 
           {!user && (
             <>
@@ -126,9 +131,13 @@ const Navbar = () => {
         </div>
 
         <div className="p-6 space-y-6 text-lg">
-          <p onClick={closeAll} className="hover:text-red-400 cursor-pointer">
+          <NavLink
+            to={'/donation-requests'}
+            onClick={closeAll}
+            className="hover:text-red-400 cursor-pointer"
+          >
             Donation Requests
-          </p>
+          </NavLink>
 
           {!user && (
             <>

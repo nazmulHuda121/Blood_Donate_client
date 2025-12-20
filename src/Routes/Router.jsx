@@ -15,6 +15,8 @@ import AdminRoute from './AdminRoute';
 import VolunteerRoute from './VolunteerRoute';
 import SearchDonors from '../Components/SearchDonor';
 import NotFound from '../Pages/NotFound';
+import PendingDonationRequests from '../Pages/PendingDonationRequests';
+import DonationDetails from '../Components/DonationDetails';
 
 const router = createBrowserRouter([
   {
@@ -28,8 +30,17 @@ const router = createBrowserRouter([
         element: <Register />,
         loader: () => fetch('/district.json').then((res) => res.json()),
       },
+      {
+        path: '/donation-requests',
+        element: <PendingDonationRequests />,
+      },
+      {
+        path: 'donation-details/:id',
+        element: <DonationDetails />,
+      },
     ],
   },
+
   {
     path: '/dashboard',
     element: (
@@ -54,6 +65,7 @@ const router = createBrowserRouter([
         path: 'my-donation-requests',
         element: <MyDonationRequests />,
       },
+
       {
         path: 'all-users',
         element: (

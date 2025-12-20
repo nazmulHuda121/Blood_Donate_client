@@ -92,7 +92,7 @@ const Register = () => {
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative w-full max-w-2xl bg-white/10 backdrop-blur-xl p-10 rounded-3xl z-10"
+        className="relative w-full max-w-2xl bg-white/20 backdrop-blur-xl p-10 rounded-3xl z-10"
       >
         <h2 className="text-4xl font-bold text-center text-red-700 mb-6">
           Create Donor Account

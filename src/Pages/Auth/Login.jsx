@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
@@ -41,7 +40,6 @@ const Login = () => {
       });
       navigate(location?.state || '/');
     } catch (error) {
-      console.log(error);
       Swal.fire({
         icon: 'error',
         title: 'Oops...',

@@ -37,12 +37,9 @@ const CreateDonation = () => {
     };
 
     try {
-      const res = await axios.post(
-        'http://localhost:5000/donation-request',
-        payload
-      );
+      await axios.post('/donation-request', payload);
+      alert('Donation request created successfully!');
 
-      alert('Donation request created successfully!', res);
       setFormData({
         recipientName: '',
         recipientDistrict: '',
