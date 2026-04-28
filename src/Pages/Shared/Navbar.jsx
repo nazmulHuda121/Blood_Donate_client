@@ -81,8 +81,12 @@ const Navbar = () => {
 
           {user && (
             <>
-              <li className="hover:text-red-400 cursor-pointer">Funding</li>
-
+              <NavLink
+                to={'funding'}
+                className="hover:text-red-400 cursor-pointer"
+              >
+                Funding
+              </NavLink>
               {/* Avatar */}
               <div className="relative">
                 <img

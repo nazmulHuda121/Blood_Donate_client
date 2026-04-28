@@ -18,6 +18,7 @@ import NotFound from '../Pages/NotFound';
 import PendingDonationRequests from '../Pages/PendingDonationRequests';
 import DonationDetails from '../Components/DonationDetails';
 import ContactUs from '../Components/ContactUs';
+import Funding from '../Components/Funding';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: 'contact',
         element: <ContactUs />,
+      },
+      {
+        path: 'funding',
+        element: <Funding />,
       },
     ],
   },
