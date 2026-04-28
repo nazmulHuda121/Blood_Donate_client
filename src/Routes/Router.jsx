@@ -17,6 +17,7 @@ import SearchDonors from '../Components/SearchDonor';
 import NotFound from '../Pages/NotFound';
 import PendingDonationRequests from '../Pages/PendingDonationRequests';
 import DonationDetails from '../Components/DonationDetails';
+import ContactUs from '../Components/ContactUs';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: 'donation-details/:id',
         element: <DonationDetails />,
+      },
+      {
+        path: 'contact',
+        element: <ContactUs />,
       },
     ],
   },

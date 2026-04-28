@@ -79,6 +79,9 @@ const Login = () => {
               placeholder="Enter email"
               required
             />
+            <p className="text-yellow-200 text-sm">
+              admin : zaara121@gmail.com
+            </p>
           </div>
 
           <div>
@@ -90,6 +93,7 @@ const Login = () => {
               placeholder="********"
               required
             />
+            <p className="text-yellow-200 text-sm">password : zaaraa</p>
           </div>
 
           <button className="py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg font-semibold">
